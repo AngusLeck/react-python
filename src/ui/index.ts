@@ -1,2 +1,1 @@
-export * from "./ArgumentInput/NumberInput";
-export * from "./FunctionalComponent";
+export * from "./Form";

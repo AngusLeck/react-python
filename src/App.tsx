@@ -1,6 +1,6 @@
 import "./App.css";
 import { PythonProvider } from "react-py";
-import { Form } from "./ui/Form";
+import { Form } from "./ui";
 
 function App() {
   return (
