@@ -21,7 +21,7 @@ export const ArgumentInput: FunctionalComponent<ArgumentInputProps> = ({
   const Input = ArgumentInputComponent[argument.__type_name__];
 
   return (
-    <view {...props}>
+    <div {...props}>
       <Controller
         control={control}
         name={argument.displayName}
@@ -36,7 +36,7 @@ export const ArgumentInput: FunctionalComponent<ArgumentInputProps> = ({
           );
         }}
       />
-    </view>
+    </div>
   );
 };
 

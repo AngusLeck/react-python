@@ -13,7 +13,7 @@ export const NumberInput: FunctionalComponent<Props> = ({
   ...props
 }) => {
   return (
-    <view
+    <div
       {...props}
       style={{
         ...props.style,
@@ -23,7 +23,7 @@ export const NumberInput: FunctionalComponent<Props> = ({
         marginRight: 8,
       }}
     >
-      <view
+      <div
         style={{
           fontSize: "small",
           alignSelf: "baseline",
@@ -31,7 +31,7 @@ export const NumberInput: FunctionalComponent<Props> = ({
         }}
       >
         {label}
-      </view>
+      </div>
       <input
         type="number"
         value={value}
@@ -39,6 +39,6 @@ export const NumberInput: FunctionalComponent<Props> = ({
           onChange(value ? Number(value) : null)
         }
       />
-    </view>
+    </div>
   );
 };

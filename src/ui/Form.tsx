@@ -22,8 +22,8 @@ export const Form: FunctionalComponent<Props> = ({
       {displayName}
       <p style={{ fontSize: "medium" }}>{description}</p>
       <ArgumentContainer>
-        {args.map((argument) => (
-          <ArgumentInput argument={argument}></ArgumentInput>
+        {args.map((argument, index) => (
+          <ArgumentInput argument={argument} key={index}></ArgumentInput>
         ))}
         <Run
           script={script}
@@ -42,12 +42,12 @@ export const Form: FunctionalComponent<Props> = ({
 };
 
 const ArgumentContainer: FunctionalComponent = ({ children }) => (
-  <view
+  <div
     style={{
       display: "flex",
       flexDirection: "row",
     }}
   >
     {children}
-  </view>
+  </div>
 );

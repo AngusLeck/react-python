@@ -6,7 +6,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <PythonProvider packages={{ micropip: ["riskCalculator"] }}>
+        <PythonProvider
+          packages={{ official: ["micropip"], micropip: ["riskCalculator"] }}
+        >
           <Form
             script={{
               packageName: "riskCalculator",

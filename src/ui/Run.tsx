@@ -19,7 +19,7 @@ export const Run: FunctionalComponent<Props> = ({
   getValues,
 }) => {
   return (
-    <view
+    <div
       style={{
         display: "flex",
         flexDirection: "column-reverse",
@@ -39,6 +39,6 @@ export const Run: FunctionalComponent<Props> = ({
           runPython(pythonScript);
         }}
       />
-    </view>
+    </div>
   );
 };
