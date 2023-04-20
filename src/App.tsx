@@ -19,13 +19,25 @@ function App() {
               args: [
                 {
                   __type_name__: "integer",
-                  displayName: "attackers",
+                  displayName: "Attackers",
                   default: 10,
+                  validate: (input) =>
+                    input === null || input < 0
+                      ? "number must be >= 0"
+                      : input > 100
+                      ? "number must be <= 100"
+                      : false,
                 },
                 {
                   __type_name__: "integer",
-                  displayName: "defenders",
+                  displayName: "Defenders",
                   default: 10,
+                  validate: (input) =>
+                    input === null || input < 0
+                      ? "number must be >= 0"
+                      : input > 100
+                      ? "number must be <= 100"
+                      : false,
                 },
               ],
             }}

@@ -6,12 +6,19 @@ export interface Script {
   args: Argument[];
 }
 
-export interface Argument<T extends ArgumentType = ArgumentType> {
-  __type_name__: T;
-  displayName: string;
-  default: ValueType<T>;
-}
+export type Argument<T extends ArgumentType = ArgumentType> =
+  T extends ArgumentType
+    ? {
+        __type_name__: T;
+        displayName: string;
+        default: ValueType<T>;
+        validate?: (input: ValueType<T> | null) => string | boolean;
+      }
+    : never;
 
-export type ArgumentType = "integer";
+export type ArgumentType = "integer" | "string";
 
-export type ValueType<T extends ArgumentType> = { integer: number }[T];
+export type ValueType<T extends ArgumentType> = {
+  integer: number;
+  string: string;
+}[T];

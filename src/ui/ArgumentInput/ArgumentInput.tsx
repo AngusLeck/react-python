@@ -1,24 +1,21 @@
 import { Controller, useFormContext } from "react-hook-form";
-import { FunctionalComponent } from "../FunctionalComponent";
+import {
+  FunctionalComponent,
+  FunctionalComponentProps,
+} from "../FunctionalComponent";
 import { Argument, ArgumentType, ValueType } from "../Script";
 import { NumberInput } from "./NumberInput";
 
-interface ArgumentInputProps {
-  argument: Argument;
+interface ArgumentInputProps<T extends ArgumentType> {
+  argument: Argument<T>;
 }
 
-interface RenderProps<V> {
-  value: number;
-  onChange: (value: V | null) => void;
-  label: string;
-}
-
-export const ArgumentInput: FunctionalComponent<ArgumentInputProps> = ({
+export function ArgumentInput<T extends ArgumentType>({
   argument,
   ...props
-}) => {
+}: FunctionalComponentProps<ArgumentInputProps<T>>) {
   const { control } = useFormContext();
-  const Input = ArgumentInputComponent[argument.__type_name__];
+  const Input = ArgumentInputComponent(argument.__type_name__);
 
   return (
     <div {...props}>
@@ -26,20 +23,40 @@ export const ArgumentInput: FunctionalComponent<ArgumentInputProps> = ({
         control={control}
         name={argument.displayName}
         defaultValue={argument.default}
-        render={({ field: { onChange, value } }) => {
+        rules={{ required: "Required", validate: argument.validate }}
+        render={({ field: { onChange, value }, fieldState: { error } }) => {
           return (
             <Input
               onChange={onChange}
               value={value}
               label={argument.displayName}
+              error={error?.message}
             />
           );
         }}
       />
     </div>
   );
-};
+}
 
-const ArgumentInputComponent: {
-  [K in ArgumentType]: FunctionalComponent<RenderProps<ValueType<K>>>;
-} = { integer: NumberInput };
+interface RenderProps<V> {
+  value: V;
+  onChange: (value: V | null) => void;
+  label: string;
+  error?: string;
+}
+
+type ArgumentInputComponentType<T extends ArgumentType> = FunctionalComponent<
+  RenderProps<ValueType<T>>
+>;
+
+// TODO: implement StringInput
+const ArgumentInputComponentMap: {
+  [T in ArgumentType]: ArgumentInputComponentType<T>;
+} = { integer: NumberInput, string: () => null };
+
+function ArgumentInputComponent<T extends ArgumentType>(
+  type: T
+): ArgumentInputComponentType<T> {
+  return ArgumentInputComponentMap[type];
+}

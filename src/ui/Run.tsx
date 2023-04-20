@@ -5,8 +5,8 @@ import { NEW_LINE } from "./newLine";
 interface Props {
   isRunning: boolean;
   isLoading: boolean;
+  isError: boolean;
   script: Script;
-
   runPython: (script: string) => void;
   getValues: (value: string) => string;
 }
@@ -17,6 +17,7 @@ export const Run: FunctionalComponent<Props> = ({
   script: { args, packageName, main },
   runPython,
   getValues,
+  isError,
 }) => {
   return (
     <div
@@ -28,8 +29,13 @@ export const Run: FunctionalComponent<Props> = ({
       <input
         type="submit"
         value={!isRunning ? "Run" : "Running..."}
-        disabled={isLoading || isRunning}
-        style={{ width: 100, marginLeft: 8, height: 22 }}
+        disabled={isLoading || isRunning || isError}
+        style={{
+          width: 100,
+          marginLeft: 24,
+          marginBottom: 20,
+          padding: 4,
+        }}
         onClick={(e) => {
           e.preventDefault();
           const values = `${args

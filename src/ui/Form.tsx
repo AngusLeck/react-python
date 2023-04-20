@@ -14,9 +14,13 @@ export const Form: FunctionalComponent<Props> = ({
   children,
   ...props
 }) => {
-  const form = useForm();
+  const form = useForm({ reValidateMode: "onChange", mode: "onChange" });
   const { runPython, stdout, stderr, isLoading, isRunning } = usePython();
   const { args, displayName, description } = script;
+  const isError =
+    Object.keys(form.formState.errors).filter(
+      (key) => !!form.formState.errors[key]?.message
+    ).length > 0;
   return (
     <FormProvider {...{ ...form, ...props }}>
       {displayName}
@@ -29,13 +33,14 @@ export const Form: FunctionalComponent<Props> = ({
           script={script}
           isRunning={isRunning}
           isLoading={isLoading}
+          isError={isError}
           runPython={runPython}
           getValues={form.getValues}
         />
       </ArgumentContainer>
-      <pre>
-        <code>{stderr || stdout || " "}</code>
-      </pre>
+      <div style={{ marginTop: 12 }}>
+        <code>{stderr || stdout || "..."}</code>
+      </div>
       {children}
     </FormProvider>
   );
@@ -46,6 +51,7 @@ const ArgumentContainer: FunctionalComponent = ({ children }) => (
     style={{
       display: "flex",
       flexDirection: "row",
+      marginTop: 10,
     }}
   >
     {children}
