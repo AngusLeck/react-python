@@ -1,17 +1,26 @@
 import { FunctionalComponent } from "../FunctionalComponent";
 
-interface Props {
+interface IntegerInputProps {
   value: number;
   onChange: (value: number | null) => void;
   label: string;
   error?: string;
 }
 
-export const NumberInput: FunctionalComponent<Props> = ({
+interface NumberInputProps extends IntegerInputProps {
+  integerOnly?: boolean;
+}
+
+export const IntegerInput: FunctionalComponent<IntegerInputProps> = (props) => (
+  <NumberInput {...props} integerOnly></NumberInput>
+);
+
+export const NumberInput: FunctionalComponent<NumberInputProps> = ({
   value,
   onChange,
   label,
   error,
+  integerOnly = false,
   ...props
 }) => {
   return (
@@ -38,9 +47,12 @@ export const NumberInput: FunctionalComponent<Props> = ({
         type="number"
         value={value ?? ""}
         style={{ padding: 4, borderColor: error ? "red" : undefined }}
-        onChange={({ target: { value } }) =>
-          onChange(value ? Number(value) : null)
-        }
+        onKeyDown={(e) => {
+          if (integerOnly && e.key.length === 1 && e.key.match(/\D/g)?.length) {
+            e.preventDefault();
+          }
+        }}
+        onChange={({ target: { value } }) => onChange(numberFromString(value))}
       />
       <div
         style={{
@@ -56,3 +68,9 @@ export const NumberInput: FunctionalComponent<Props> = ({
     </div>
   );
 };
+
+function numberFromString(input: string | null): number | null {
+  if (!input) return null;
+
+  return Number(input);
+}

@@ -1,24 +1,18 @@
+import { useFormContext } from "react-hook-form";
 import { FunctionalComponent } from "./FunctionalComponent";
-import { Script } from "./Script";
-import { NEW_LINE } from "./newLine";
 
 interface Props {
   isRunning: boolean;
   isLoading: boolean;
-  isError: boolean;
-  script: Script;
-  runPython: (script: string) => void;
-  getValues: (value: string) => string;
 }
 
-export const Run: FunctionalComponent<Props> = ({
-  isRunning,
-  isLoading,
-  script: { args, packageName, main },
-  runPython,
-  getValues,
-  isError,
-}) => {
+export const Run: FunctionalComponent<Props> = ({ isRunning, isLoading }) => {
+  const { formState } = useFormContext();
+  const isError =
+    Object.keys(formState.errors).filter(
+      (key) => !!formState.errors[key]?.message
+    ).length > 0;
+
   return (
     <div
       style={{
@@ -35,14 +29,6 @@ export const Run: FunctionalComponent<Props> = ({
           marginLeft: 24,
           marginBottom: 20,
           padding: 4,
-        }}
-        onClick={(e) => {
-          e.preventDefault();
-          const values = `${args
-            .map((arg) => getValues(arg.displayName))
-            .join(",")}`;
-          const pythonScript = `from ${packageName} import ${main}${NEW_LINE}${main}(${values})`;
-          runPython(pythonScript);
         }}
       />
     </div>

@@ -4,7 +4,7 @@ import {
   FunctionalComponentProps,
 } from "../FunctionalComponent";
 import { Argument, ArgumentType, ValueType } from "../Script";
-import { NumberInput } from "./NumberInput";
+import { IntegerInput } from "./NumberInput";
 
 interface ArgumentInputProps<T extends ArgumentType> {
   argument: Argument<T>;
@@ -53,7 +53,7 @@ type ArgumentInputComponentType<T extends ArgumentType> = FunctionalComponent<
 // TODO: implement StringInput
 const ArgumentInputComponentMap: {
   [T in ArgumentType]: ArgumentInputComponentType<T>;
-} = { integer: NumberInput, string: () => null };
+} = { integer: IntegerInput, string: () => null };
 
 function ArgumentInputComponent<T extends ArgumentType>(
   type: T

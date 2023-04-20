@@ -26,7 +26,7 @@ function App() {
                       ? "number must be >= 0"
                       : input > 100
                       ? "number must be <= 100"
-                      : false,
+                      : true,
                 },
                 {
                   __type_name__: "integer",
@@ -37,7 +37,7 @@ function App() {
                       ? "number must be >= 0"
                       : input > 100
                       ? "number must be <= 100"
-                      : false,
+                      : true,
                 },
               ],
             }}
